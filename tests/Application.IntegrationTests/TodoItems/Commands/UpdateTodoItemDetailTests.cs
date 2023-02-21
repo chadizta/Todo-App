@@ -58,4 +58,18 @@ public class UpdateTodoItemDetailTests : BaseTestFixture
         item.LastModified.Should().NotBeNull();
         item.LastModified.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
+
+    [Test]
+    public async Task ShouldThrowExceptionWhenColourIsInvalid()
+    {
+        var command = new UpdateTodoItemDetailCommand { Id = 99, Colour = "INVALID_COLOUR" };
+        await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<Domain.Exceptions.UnsupportedColourException>();
+    }
+
+    [Test]
+    public async Task ShouldInvokeNextWhenColourIsValid()
+    {
+        var command = new UpdateTodoItemDetailCommand { Id = 99, Colour = "#FF5733" };
+        await FluentActions.Invoking(() => SendAsync(command)).Should().NotThrowAsync<Domain.Exceptions.UnsupportedColourException>();
+    }
 }
