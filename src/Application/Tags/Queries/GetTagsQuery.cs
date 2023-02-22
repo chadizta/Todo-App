@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Todo_App.Application.Common.Interfaces;
 
-namespace Todo_App.Application.Tags.Queries.GetTodos;
+namespace Todo_App.Application.Tags.Queries.GetTags;
 
 public record GetTagsQuery : IRequest<List<TagDto>>;
 
