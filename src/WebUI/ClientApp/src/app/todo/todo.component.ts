@@ -32,7 +32,8 @@ export class TodoComponent implements OnInit {
     id: [null],
     listId: [null],
     priority: [''],
-    note: ['']
+    note: [''],
+    colour: ['']
   });
 
 
@@ -51,6 +52,7 @@ export class TodoComponent implements OnInit {
         if (this.lists.length) {
           this.selectedList = this.lists[0];
         }
+        console.log('list:' + JSON.stringify(this.lists));
       },
       error => console.error(error)
     );
