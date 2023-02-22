@@ -78,7 +78,10 @@ public class ApplicationDbContextInitialiser
                 Title = "Todo List",
                 Items =
                 {
-                    new TodoItem { Title = "Make a todo list 📃", Colour = "#FF5733" },
+                    new TodoItem { Title = "Make a todo list 📃", Colour = "#FF5733", Tags = {
+                            new Tag { Title = "General"},
+                            new Tag { Title = "Work"}
+                        }},
                     new TodoItem { Title = "Check off the first item ✅" , Colour = "#FFC300"},
                     new TodoItem { Title = "Realise you've already done two things on the list! 🤯", Colour = "#FFFF66"},
                     new TodoItem { Title = "Reward yourself with a nice, long nap 🏆" , Colour = "#CCFF99"},
