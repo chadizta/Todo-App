@@ -4,7 +4,7 @@ using Todo_App.Domain.Entities;
 
 namespace Todo_App.Infrastructure.Persistence.Configurations;
 
-public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>
+public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>//EntityMapBase
 {
     public void Configure(EntityTypeBuilder<TodoList> builder)
     {
@@ -13,6 +13,6 @@ public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>
             .IsRequired();
 
         builder
-            .OwnsOne(b => b.Colour);
+            .OwnsOne(b => b.Colour);        
     }
 }

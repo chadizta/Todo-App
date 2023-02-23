@@ -5,15 +5,14 @@ public class TodoItem : BaseAuditableEntity
     public int ListId { get; set; }
 
     public string? Title { get; set; }
-
-    //public Colour Colour { get; set; } = Colour.Red;
+    
     public string? Colour { get; set; }
 
     public string? Note { get; set; }
 
     public PriorityLevel Priority { get; set; }
 
-    public DateTime? Reminder { get; set; }
+    public DateTime? Reminder { get; set; }    
 
     private bool _done;
     public bool Done
