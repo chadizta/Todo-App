@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Todo_App.Application.Common.Interfaces;
 using Todo_App.Domain.Entities;
+using Todo_App.Domain.ValueObjects;
 
 namespace Todo_App.Application.TodoLists.Commands.CreateTodoList;
 
@@ -22,7 +23,7 @@ public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListComman
     {
         var entity = new TodoList();
 
-        entity.Title = request.Title;
+        entity.Title = request.Title;        
 
         _context.TodoLists.Add(entity);
 

@@ -30,7 +30,7 @@ public class DeleteTagCommandHandler : IRequestHandler<DeleteTagCommand>
 
         _context.Tag.Remove(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.TrySaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

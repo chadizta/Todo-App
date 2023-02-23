@@ -12,4 +12,6 @@ public interface IApplicationDbContext
     DbSet<Tag> Tag { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+    Task<int> TrySaveChangesAsync(CancellationToken cancellationToken = default);
 }

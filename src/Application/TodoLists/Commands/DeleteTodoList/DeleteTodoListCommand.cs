@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Todo_App.Application.Common.Exceptions;
 using Todo_App.Application.Common.Interfaces;
 using Todo_App.Domain.Entities;
+using Todo_App.Domain.ValueObjects;
 
 namespace Todo_App.Application.TodoLists.Commands.DeleteTodoList;
 
@@ -27,7 +28,7 @@ public class DeleteTodoListCommandHandler : IRequestHandler<DeleteTodoListComman
         {
             throw new NotFoundException(nameof(TodoList), request.Id);
         }
-
+       
         _context.TodoLists.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);

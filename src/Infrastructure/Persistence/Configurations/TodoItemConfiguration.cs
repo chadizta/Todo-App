@@ -4,7 +4,7 @@ using Todo_App.Domain.Entities;
 
 namespace Todo_App.Infrastructure.Persistence.Configurations;
 
-public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
+public class TodoItemConfiguration : EntityMapBase<TodoItem>
 {
     public void Configure(EntityTypeBuilder<TodoItem> builder)
     {
@@ -13,6 +13,6 @@ public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
             .IsRequired();
 
         builder.Property(t => t.Note)
-            .HasMaxLength(2);
+            .HasMaxLength(2);        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Reflection.Emit;
 using Duende.IdentityServer.EntityFramework.Options;
 using MediatR;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Todo_App.Application.Common.Interfaces;
 using Todo_App.Domain.Entities;
 using Todo_App.Infrastructure.Identity;
+using Todo_App.Infrastructure.Persistence.Extensions;
 using Todo_App.Infrastructure.Persistence.Interceptors;
 
 namespace Todo_App.Infrastructure.Persistence;
@@ -36,6 +38,8 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        
+        builder.Entity<TodoList>().OwnsOne(b => b.Colour).Ignore("Colour_Code");
 
         base.OnModelCreating(builder);
     }
@@ -46,6 +50,14 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await _mediator.DispatchDomainEvents(this);
+
+        ChangeTracker.SetAuditProperties();
+
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+    public async Task<int> TrySaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await _mediator.DispatchDomainEvents(this);
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Drawing;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Todo_App.Domain.Entities;
@@ -75,7 +76,7 @@ public class ApplicationDbContextInitialiser
         {
             _context.TodoLists.Add(new TodoList
             {
-                Title = "Todo List",
+                Title = "Todo List",                
                 Items =
                 {
                     new TodoItem { Title = "Make a todo list 📃", Colour = "#FF5733", Tags = {
