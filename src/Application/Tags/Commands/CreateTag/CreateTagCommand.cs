@@ -6,6 +6,7 @@ namespace Todo_App.Application.Tags.Commands.CreateTag;
 
 public record CreateTagCommand : IRequest<int>
 {
+    public int TodoItemId { get; set; }
     public string? Title { get; init; }
 }
 
@@ -22,6 +23,7 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, int>
     {
         var entity = new Tag();
 
+        entity.TodoItemId = request.TodoItemId;
         entity.Title = request.Title;
 
         _context.Tag.Add(entity);

@@ -17,7 +17,7 @@
       </div>
       <ul class="list-group">
         <li *ngFor="let list of lists; index as i" class="list-group-item"
-          [ngClass]="{ 'active': selectedList == list }" (click)="selectedList = list">
+          [ngClass]="{ 'active': selectedList == list }" (click)="selectedList = list; filteredItems = list.items">
           <div class="clearfix">
             <div class="float-start">
               {{ list.title }}
@@ -38,7 +38,7 @@
         </button>
       </div>
       <ul id="todo-items" class="list-group mb-2">
-        <li class="list-group-item" *ngFor="let item of selectedList.items; index as i" [style.background]=item.colour>
+        <li class="list-group-item" *ngFor="let item of filteredItems; index as i" [style.background]=item.colour>
           <div class="d-flex">
             <div class="todo-item-checkbox">
               <input type="checkbox" [(ngModel)]="item.done" (change)="updateItem(item)" />
@@ -47,16 +47,23 @@
               <input id="{{ 'itemTitle' + i }}" *ngIf="item == selectedItem" type="text"
                      class="form-control item-input-control" [(ngModel)]="item.title" (keyup.enter)="updateItem(item, true)"
                      (blur)="updateItem(item)" autofocus="autofocus" />
-              <div class="todo-item-title" *ngIf="item != selectedItem" [ngClass]="{ 'done-todo': item.done }"
-                   (click)="editItem(item, 'itemTitle' + i)" class="form-control item-input-control">
+              <div class="todo-item-title form-control item-input-control" *ngIf="item != selectedItem" [ngClass]="{ 'done-todo': item.done }"
+                   (click)="editItem(item, 'itemTitle' + i)">
                 <span>{{ item.title }}</span> <br />
-                <span *ngFor="let tag of item.tags;" class="badge badge-pill badge-light" style="background-color:gray;">{{ tag.title}}</span>
               </div>
+              <!--<span *ngFor="let tag of item.tags;">
+                <span [id]="bgColor" *ngIf="getRandomColor();let bgColor"  class="badge badge-pill badge-light" [style.background]="bgColor" [style.color]="getFontColor(bgColor)">{{ tag.title}} <i class="bi bi-x" (click)="onDeleteTag(tag, selectedList)"></i></span>
+              </span>-->              
+              <span *ngFor="let tag of item.tags;"  class="badge badge-pill badge-light" style="background-color:gray;">{{ tag.title}} <i class="bi bi-x" (click)="onDeleteTag(tag, selectedList)"></i></span>              
             </div>
             <div class="todo-item-commands">
               <button *ngIf="item.id != 0" (click)="showItemDetailsModal(itemDetailsModalTemplate, item)"
                       class="btn btn-default btn-xs" role="button">
                 <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <button *ngIf="item.id != 0" (click)="showTagsModal(newTagModalTemplate, item)"
+                      class="btn btn-default btn-xs" role="button">
+                <i class="bi bi-tags"></i>
               </button>
             </div>
           </div>
@@ -64,7 +71,9 @@
         <li class="list-group-item" (click)="addItem()">
           <button class="btn btn-default">Add Item...</button>
         </li>
-        <input type="text" placeholder="Search by Tag" />
+        <li>
+          <input type="text" placeholder="Search by Tag" [(ngModel)]="listFilter"/>
+        </li>        
       </ul>
     </div>
   </div>
@@ -196,6 +205,33 @@
     <div class="float-end">
       <button class="btn btn-default" (click)="newListCancelled()">Cancel</button>
       <button class="btn btn-primary" (click)="addList()">Create</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #newTagModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Tags to "{{ selectedItem?.title }}"?</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="newTagModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="tagsFormGroup" class="form">
+      <input type="hidden" formControlName="todoItemId" />
+      <div class="form-group">
+        <label for="title">Tag</label>
+        <input type="text" class="form-control" formControlName="title" />       
+      </div>
+    </form>
+    <div *ngIf="debug">
+      <pre>{{ selectedItem | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer clearfix">
+    <div class="float-end">
+      <button type="button" class="btn btn-default" (click)="newTagModalRef.hide()">Cancel</button>
+      <button class="btn btn-primary" (click)="onSaveTag()">Add</button>
     </div>
   </div>
 </ng-template>

@@ -875,6 +875,7 @@ export interface ITagDto {
 }
 
 export class CreateTagCommand implements ICreateTagCommand {
+    todoItemId?: number;
     title?: string | undefined;
 
     constructor(data?: ICreateTagCommand) {
@@ -888,6 +889,7 @@ export class CreateTagCommand implements ICreateTagCommand {
 
     init(_data?: any) {
         if (_data) {
+            this.todoItemId = _data["todoItemId"];
             this.title = _data["title"];
         }
     }
@@ -901,12 +903,14 @@ export class CreateTagCommand implements ICreateTagCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["todoItemId"] = this.todoItemId;
         data["title"] = this.title;
         return data;
     }
 }
 
 export interface ICreateTagCommand {
+    todoItemId?: number;
     title?: string | undefined;
 }
 
