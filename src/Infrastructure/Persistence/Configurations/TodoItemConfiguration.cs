@@ -13,6 +13,6 @@ public class TodoItemConfiguration : EntityMapBase<TodoItem>
             .IsRequired();
 
         builder.Property(t => t.Note)
-            .HasMaxLength(2);
+            .HasMaxLength(2);        
     }
 }

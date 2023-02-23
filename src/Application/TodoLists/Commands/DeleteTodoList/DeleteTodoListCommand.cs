@@ -28,9 +28,7 @@ public class DeleteTodoListCommandHandler : IRequestHandler<DeleteTodoListComman
         {
             throw new NotFoundException(nameof(TodoList), request.Id);
         }
-
-        entity.Colour = Colour.Red;
-
+       
         _context.TodoLists.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
